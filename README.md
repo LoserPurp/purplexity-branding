@@ -349,14 +349,14 @@ The logo, wordmark, lockup and button colors stay the same in both themes. Only 
 
 ---
 
-## Authentik theme · `assets/css/authentik.css`
+## Authentik theme · `assets/css/v2/authentik.css`
 
 Custom CSS that makes the authentik login page match the login examples above: the backdrop follows authentik's light or dark theme, the lockup floats above a glass card, inputs are rounded, and the primary button is an Arc Blue pill.
 
 To use it, open the file, copy **all of its contents**, and paste them into **Admin → System → Brands → (your brand) → Custom CSS**:
 
 ```
-https://branding.purplexity.no/assets/css/authentik.css
+https://branding.purplexity.no/assets/css/v2/authentik.css
 ```
 
 > Don't use `@import url(...)` to load the file. authentik adds brand CSS to each component's shadow root in a way that doesn't allow `@import`, so only the backdrop would change and the card, inputs and button would keep authentik's default look. Paste the full CSS instead, and paste it again when the file changes.
@@ -364,7 +364,13 @@ https://branding.purplexity.no/assets/css/authentik.css
 - authentik applies brand CSS to every interface, so every rule is scoped to the login flow. The user and admin dashboards keep authentik's normal look.
 - Set the brand logo to `assets/svg/lockup.svg` and the favicon to `assets/svg/logo-outline-purple.svg`.
 - Tested on the username and password step in Chrome and Firefox, desktop and phone, light and dark.
-- Like the images, the CSS follows the version rule: changes go in `assets/css/v2/authentik.css`.
+- The loading state after pressing **Log in** has no dark box: the card fades slightly and an Arc Blue spinner shows over it.
+- Like the images, the CSS follows the version rule:
+
+| Version | File | Change |
+|---|---|---|
+| 1 | `assets/css/authentik.css` | First theme |
+| 2 | `assets/css/v2/authentik.css` | Replaces the dark loading box with a faded card and an Arc Blue spinner **(current)** |
 
 ---
 
