@@ -353,11 +353,13 @@ The logo, wordmark, lockup and button colors stay the same in both themes. Only 
 
 Custom CSS that makes the authentik login page match the login examples above: the backdrop follows authentik's light or dark theme, the lockup floats above a glass card, inputs are rounded, and the primary button is an Arc Blue pill.
 
-To use it, paste the file's contents into **Admin → System → Brands → (your brand) → Custom CSS**, or copy it from:
+To use it, open the file, copy **all of its contents**, and paste them into **Admin → System → Brands → (your brand) → Custom CSS**:
 
 ```
 https://branding.purplexity.no/assets/css/authentik.css
 ```
+
+> Don't use `@import url(...)` to load the file. authentik adds brand CSS to each component's shadow root in a way that doesn't allow `@import`, so only the backdrop would change and the card, inputs and button would keep authentik's default look. Paste the full CSS instead, and paste it again when the file changes.
 
 - authentik applies brand CSS to every interface, so every rule is scoped to the login flow. The user and admin dashboards keep authentik's normal look.
 - Set the brand logo to `assets/svg/lockup.svg` and the favicon to `assets/svg/logo-outline-purple.svg`.
