@@ -1,0 +1,236 @@
+/* ==========================================================================
+   Purplexity theme for authentik login flows
+   Paste into: Admin → System → Brands → (your brand) → Custom CSS
+
+   authentik applies brand CSS to every interface (login, user, admin) and to
+   every component's shadow root. Every rule below is scoped to the login flow
+   so the user and admin dashboards keep their normal look:
+     body:has(ak-flow-executor)   the login page itself
+     :host(.pf-c-login)           the login frame (ak-flow-executor)
+     :host(#flow-drawer)          the drawer wrapping the login frame
+     :host([part="challenge"])    the current login step (username, password, ...)
+     :host([part="flow-card"])    the card heading inside a step
+   ========================================================================== */
+
+/* ---- Backdrop: light or dark, following authentik's theme ---- */
+html[data-theme="light"]:has(ak-flow-executor) {
+  --ak-global--background-image: url("https://branding.purplexity.no/assets/svg/backdrop-light.svg");
+}
+html[data-theme="dark"]:has(ak-flow-executor) {
+  --ak-global--background-image: url("https://branding.purplexity.no/assets/svg/backdrop-dark.svg");
+}
+html[data-theme="light"] body:has(ak-flow-executor) {
+  background-color: #6F23AB !important;
+}
+html[data-theme="dark"] body:has(ak-flow-executor) {
+  background-color: #130920 !important;
+}
+/* authentik drops the backdrop image on phones; keep it on every screen size */
+html[data-theme] body:has(ak-flow-executor)::before {
+  background-color: transparent !important;
+  background-image: var(--ak-global--background-image) !important;
+  background-position: center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+/* and on phones it adds a solid layer behind the form: clear it */
+ak-flow-executor.pf-c-login::before {
+  background-color: transparent !important;
+}
+:host(.pf-c-login)::before {
+  background-color: transparent !important;
+}
+:host(#flow-drawer) .pf-c-drawer.pf-m-collapsed .pf-c-drawer__panel {
+  background: transparent !important;
+}
+
+/* ---- Login frame: invisible, so the lockup floats above the card ---- */
+:host(.pf-c-login) .pf-c-login__main {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+:host(.pf-c-login) .pf-c-login__main-header.pf-c-brand {
+  padding: 0 0 28px !important;
+  margin: 0 !important;
+}
+:host(.pf-c-login) .branding-logo {
+  width: 100%;
+  max-width: 360px;
+  max-height: none !important;
+}
+:host(.pf-c-login) .pf-c-login__footer {
+  color: rgba(244, 238, 251, 0.7) !important;
+}
+:host([name="flow-links"]) [part="list-item"] {
+  color: rgba(244, 238, 251, 0.7) !important;
+}
+
+/* ---- Loading state (after pressing Log in) ----
+   authentik covers the logo and card with a dark box and a spinner.
+   Instead: no box, the card fades a little, and an Arc Blue spinner sits over the card. */
+:host(.pf-c-login) ak-loading-overlay {
+  background: transparent !important;
+  top: 106px !important;
+  /* the spinner reads these globals; setting them here only affects this spinner */
+  --pf-global--primary-color--100: #7FD3F0;
+  --pf-global--icon--FontSize--xl: 56px;
+}
+:host(.pf-c-login) .pf-c-login__main:has(ak-loading-overlay) [part="challenge"] {
+  opacity: 0.55;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* ---- Glass card around each login step ---- */
+:host([part="challenge"]) ak-flow-card {
+  display: block;
+  background: rgba(244, 238, 251, 0.08);
+  border: 1px solid rgba(244, 238, 251, 0.22);
+  border-radius: 28px;
+  padding: 36px 40px 32px;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+:host([part="challenge"][theme="dark"]) ak-flow-card {
+  background: rgba(244, 238, 251, 0.05);
+  border-color: rgba(244, 238, 251, 0.14);
+}
+:host([part="flow-card"]) .pf-c-login__main-header,
+:host([part="flow-card"]) .pf-c-login__main-body,
+:host([part="flow-card"]) .pf-c-login__main-footer {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ---- Text ---- */
+:host([part="flow-card"]) .pf-c-title,
+:host([part="challenge"]) .pf-c-title {
+  color: #F4EEFB !important;
+  font-weight: 600 !important;
+}
+:host([part="challenge"]) .pf-c-form__label-text {
+  color: rgba(244, 238, 251, 0.75) !important;
+  font-weight: 400 !important;
+}
+:host([part="challenge"]) .pf-c-form__label-text::after {
+  color: #7FD3F0 !important;
+}
+:host([part="challenge"]) .pf-c-form__helper-text {
+  color: rgba(244, 238, 251, 0.6) !important;
+}
+:host([part="challenge"]) .pf-c-form__helper-text.pf-m-error {
+  color: #FFB4C8 !important;
+}
+:host([part="challenge"]) a,
+:host([part="flow-card"]) a,
+:host([part="challenge"]) .pf-c-button.pf-m-link {
+  color: #7FD3F0 !important;
+}
+
+/* ---- Inputs ---- */
+:host([part="challenge"]) .pf-c-input-group {
+  background: transparent !important;
+}
+:host([part="challenge"]) .pf-c-form-control {
+  --pf-c-form-control--BorderTopColor: transparent;
+  --pf-c-form-control--BorderRightColor: transparent;
+  --pf-c-form-control--BorderBottomColor: transparent;
+  --pf-c-form-control--BorderLeftColor: transparent;
+  background: rgba(34, 22, 52, 0.35) !important;
+  border: 1px solid rgba(244, 238, 251, 0.18) !important;
+  border-radius: 14px !important;
+  color: #F4EEFB !important;
+  min-height: 52px;
+  padding: 0 16px !important;
+  font-style: normal !important;
+}
+:host([part="challenge"][theme="dark"]) .pf-c-form-control {
+  background: rgba(0, 0, 0, 0.45) !important;
+}
+:host([part="challenge"]) .pf-c-form-control::placeholder {
+  color: rgba(244, 238, 251, 0.45) !important;
+  font-style: normal;
+}
+:host([part="challenge"]) .pf-c-form-control:focus,
+:host([part="challenge"]) .pf-c-form-control:focus-visible {
+  border-color: #7FD3F0 !important;
+  box-shadow: 0 0 0 3px rgba(127, 211, 240, 0.25) !important;
+  outline: none !important;
+}
+:host([part="challenge"]) .pf-c-form-control:-webkit-autofill {
+  -webkit-text-fill-color: #F4EEFB;
+  caret-color: #F4EEFB;
+  box-shadow: 0 0 0 1000px #3A1F5C inset !important;
+  transition: background-color 9999s;
+}
+
+/* ---- Primary button: Arc Blue pill ---- */
+:host([part="challenge"]) .pf-c-button.pf-m-primary {
+  --pf-c-button--after--BorderColor: transparent;
+  background: #7FD3F0 !important;
+  color: #221634 !important;
+  border-radius: 999px !important;
+  min-height: 52px;
+  font-weight: 600 !important;
+}
+:host([part="challenge"]) .pf-c-button.pf-m-primary:hover,
+:host([part="challenge"]) .pf-c-button.pf-m-primary:focus-visible {
+  background: #9FDDF4 !important;
+}
+:host([part="challenge"]) .pf-c-button.pf-m-primary::after {
+  border: 0 !important;
+}
+
+/* ---- Alerts inside the card ("Failed to authenticate." and similar) ----
+   Soft glass boxes that match the card instead of authentik's solid grey or pink bars. */
+:host([part="challenge"]) .pf-c-alert.pf-m-inline {
+  --pf-c-alert--BorderTopWidth: 0;
+  --pf-c-alert--BoxShadow: none;
+  background: rgba(127, 211, 240, 0.12) !important;
+  border: 1px solid rgba(127, 211, 240, 0.35) !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+  padding: 12px 16px !important;
+  align-items: center;
+}
+:host([part="challenge"]) .pf-c-alert.pf-m-inline .pf-c-alert__icon {
+  color: #7FD3F0 !important;
+}
+:host([part="challenge"]) .pf-c-alert.pf-m-inline .pf-c-alert__title {
+  color: #F4EEFB !important;
+  font-weight: 500 !important;
+}
+/* errors: rose tint */
+:host([part="challenge"]) .pf-c-alert.pf-m-inline.pf-m-danger {
+  background: rgba(255, 120, 160, 0.14) !important;
+  border-color: rgba(255, 180, 200, 0.4) !important;
+}
+:host([part="challenge"]) .pf-c-alert.pf-m-inline.pf-m-danger .pf-c-alert__icon {
+  color: #FFB4C8 !important;
+}
+/* warnings: warm amber tint */
+:host([part="challenge"]) .pf-c-alert.pf-m-inline.pf-m-warning {
+  background: rgba(255, 200, 110, 0.14) !important;
+  border-color: rgba(255, 214, 140, 0.4) !important;
+}
+:host([part="challenge"]) .pf-c-alert.pf-m-inline.pf-m-warning .pf-c-alert__icon {
+  color: #FFD68C !important;
+}
+
+/* ---- Phones: keep the card off the screen edges ---- */
+@media (max-width: 600px) {
+  :host(.pf-c-login) .pf-c-login__main {
+    padding: 0 16px !important;
+  }
+  :host(.pf-c-login) .branding-logo {
+    max-width: 280px;
+  }
+  :host(.pf-c-login) ak-loading-overlay {
+    top: 89px !important;
+  }
+  :host([part="challenge"]) ak-flow-card {
+    padding: 28px 22px 24px;
+    border-radius: 24px;
+  }
+}
