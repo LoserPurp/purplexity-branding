@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Purplexity">
+  <title>Purplexity</title>
+  <defs>
+    <!-- 45° gradient: brightest #9E12DA bottom-left to #44139F top-right -->
+    <linearGradient id="bg" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0.000" stop-color="#9E12DA"/>
+      <stop offset="0.167" stop-color="#9412D3"/>
+      <stop offset="0.333" stop-color="#8412C9"/>
+      <stop offset="0.500" stop-color="#7112BC"/>
+      <stop offset="0.667" stop-color="#5E13B0"/>
+      <stop offset="0.833" stop-color="#4E13A6"/>
+      <stop offset="1.000" stop-color="#44139F"/>
+    </linearGradient>
+    <radialGradient id="midFade" gradientUnits="userSpaceOnUse" cx="256.0" cy="256.0" r="128.0">
+      <stop offset="0"   stop-color="#000"/>
+      <stop offset="0.2" stop-color="#000"/>
+      <stop offset="0.6" stop-color="#777"/>
+      <stop offset="1"   stop-color="#fff"/>
+    </radialGradient>
+    <mask id="mid" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+      <rect width="512" height="512" fill="url(#midFade)"/>
+    </mask>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur"/>
+      <feOffset in="blur" dx="2" dy="5" result="off"/>
+      <feFlood flood-color="#12002A" flood-opacity="0.3"/>
+      <feComposite operator="in" in2="off" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- blurred edge stroke, clipped to the tile, reads as a faint inner glow -->
+    <filter id="glowBlur" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <clipPath id="tile"><rect width="512" height="512" rx="116"/></clipPath>
+  </defs>
+  <g clip-path="url(#tile)">
+    <rect width="512" height="512" fill="url(#bg)"/>
+    <rect width="512" height="512" rx="116" fill="none" stroke="#2DC1F8" stroke-width="28" stroke-opacity="0.14" filter="url(#glowBlur)"/>
+    <g mask="url(#mid)"><g fill="none" stroke="#F6EEFF" stroke-width="48" stroke-linecap="round" stroke-linejoin="round" filter="url(#soft)"><path d="M382.9 302.2A135 135 0 1 1 209.8 129.1"/><path d="M190.2 232.1A70 70 0 1 1 279.9 321.8"/></g></g>
+  </g>
+</svg>

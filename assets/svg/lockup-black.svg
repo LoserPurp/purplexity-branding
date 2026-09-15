@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1380 300" width="1380" height="300" role="img" aria-label="Purplexity">
+  <title>Purplexity lockup (black)</title>
+  <!-- Black version: logo and wordmark in black, for light backgrounds -->
+  <!-- Horizontal lockup: outline logo + double-arc wordmark v3.
+       Logo is 260 tall, centred on the x-height so its arc weight matches the letter weight. -->
+
+  <!-- outline logo (purplexity-logo-outline.svg at 0.508 scale) -->
+  <g transform="translate(0 24) scale(0.508)">
+    <rect x="22" y="22" width="468" height="468" rx="106" fill="none" stroke="#000000" stroke-width="22"/>
+    <g fill="none" stroke-linecap="round" transform="translate(256 256) scale(0.9) translate(-256 -256)">
+      <path d="M382.86 302.17 A135 135 0 1 1 209.83 129.14" stroke="#000000" stroke-width="42"/>
+      <path d="M190.22 232.06 A70 70 0 1 1 279.94 321.78" stroke="#000000" stroke-width="33"/>
+    </g>
+  </g>
+
+  <!-- wordmark (wordmark/purplexity-double-arc-v3.svg) -->
+  <g transform="translate(300 0)">
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(6 0)">
+      <g stroke="#000000" stroke-width="18">
+        <path d="M44 104 V264"/>
+        <path d="M70.9 107 A50 50 0 1 1 47 182.6"/>
+        <path d="M170 104 V154 A50 50 0 0 0 270 154 M270 104 V204"/>
+        <path d="M302 204 V104 M302 154 A50 50 0 0 1 352 104"/>
+        <path d="M374 104 V264"/>
+        <path d="M400.9 107 A50 50 0 1 1 377 182.6"/>
+        <path d="M500 44 V204"/>
+        <path d="M532 154 H632 A50 50 0 1 0 617.4 189.4"/>
+        <path d="M668 104 L760 204 M760 104 L668 204"/>
+        <path d="M796 104 V204"/>
+        <path d="M852 60 V180 A24 24 0 0 0 876 204 M828 104 H888"/>
+        <path d="M920 104 V154 A50 50 0 0 0 1020 154 M1020 104 V214 A50 50 0 0 1 926.6 239"/>
+      </g>
+      <circle cx="796" cy="60" r="12" fill="#000000"/>
+      <g stroke="#000000" stroke-width="14">
+        <path d="M95.5 174.7 A22 22 0 1 1 108.7 146.5"/>
+        <path d="M425.5 174.7 A22 22 0 1 1 438.7 146.5"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Purplexity icon">
+  <title>Purplexity icon</title>
+  <!-- Blank icon: purple gradient (Tile Bright to Tile Deep) inside the Lilac White border, nothing else -->
+  <defs>
+    <linearGradient id="fill" gradientUnits="userSpaceOnUse" x1="22" y1="490" x2="490" y2="22">
+      <stop offset="0.000" stop-color="#9E12DA"/>
+      <stop offset="0.167" stop-color="#9412D3"/>
+      <stop offset="0.333" stop-color="#8412C9"/>
+      <stop offset="0.500" stop-color="#7112BC"/>
+      <stop offset="0.667" stop-color="#5E13B0"/>
+      <stop offset="0.833" stop-color="#4E13A6"/>
+      <stop offset="1.000" stop-color="#44139F"/>
+    </linearGradient>
+  </defs>
+  <rect x="22" y="22" width="468" height="468" rx="106" fill="url(#fill)"/>
+  <rect x="22" y="22" width="468" height="468" rx="106" fill="none" stroke="#F4EEFB" stroke-width="22"/>
+</svg>

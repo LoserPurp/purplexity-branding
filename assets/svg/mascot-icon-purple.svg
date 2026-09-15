@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Purplexity octopus">
+  <title>Purplexity octopus</title>
+  <!-- Mascot icon: purple gradient (Tile Bright to Tile Deep) inside the Lilac White border, octopus at 72% -->
+  <defs>
+    <linearGradient id="fill" gradientUnits="userSpaceOnUse" x1="22" y1="490" x2="490" y2="22">
+      <stop offset="0.000" stop-color="#9E12DA"/>
+      <stop offset="0.167" stop-color="#9412D3"/>
+      <stop offset="0.333" stop-color="#8412C9"/>
+      <stop offset="0.500" stop-color="#7112BC"/>
+      <stop offset="0.667" stop-color="#5E13B0"/>
+      <stop offset="0.833" stop-color="#4E13A6"/>
+      <stop offset="1.000" stop-color="#44139F"/>
+    </linearGradient>
+    <linearGradient id="body" gradientUnits="userSpaceOnUse" x1="33.6" y1="100.1" x2="478.4" y2="421.9">
+      <stop offset="0" stop-color="#B693DF"/>
+      <stop offset="1" stop-color="#845DB9"/>
+    </linearGradient>
+  </defs>
+  <rect x="22" y="22" width="468" height="468" rx="106" fill="url(#fill)"/>
+  <rect x="22" y="22" width="468" height="468" rx="106" fill="none" stroke="#F4EEFB" stroke-width="22"/>
+  <g transform="translate(256 256) scale(0.72) translate(-256 -256)">
+    <g transform="translate(0 -5)">
+    <path fill="url(#body)" stroke="#3D2569" stroke-width="10" stroke-linejoin="round"
+          d="M256 92
+             C184 92 132 140 132 214
+             C132 238 122.5 254 103.3 259.3
+             C76.8 266.6 29 310 34 333
+             C38.9 354.9 60.9 364.3 81.9 357.4
+             C94 353.4 93.2 352.7 91.4 365.4
+             C88.5 385.9 98.9 404.4 119 410
+             C140.3 416.3 158.5 404.5 166.7 386.5
+             C172 374.8 169.9 374.4 172.1 387
+             C176.4 412.6 193.1 430 214 430
+             C234 430 246.3 414.6 252.5 394.7
+             C256.3 382.4 255.7 382.4 259.5 394.7
+             C265.7 414.6 278 430 298 430
+             C318.9 430 335.6 412.6 339.9 387
+             C342.1 374.4 340 374.8 345.3 386.5
+             C353.5 404.5 371.7 416.3 393 410
+             C413.1 404.4 423.5 385.9 420.6 365.4
+             C418.8 352.7 418 353.4 430.1 357.4
+             C451.1 364.3 473.1 354.9 478 333
+             C483 310 435.2 266.6 408.7 259.3
+             C389.5 254 380 238 380 214
+             C380 140 328 92 256 92 Z"/>
+
+    
+    <g fill="#221634">
+      <ellipse cx="205" cy="224" rx="25" ry="32"/>
+      <ellipse cx="307" cy="224" rx="25" ry="32"/>
+    </g>
+    <g fill="#FFFFFF">
+      <circle cx="198" cy="214" r="8"/>
+      <circle cx="300" cy="214" r="8"/>
+      <circle cx="211" cy="237" r="4"/>
+      <circle cx="313" cy="237" r="4"/>
+    </g>
+
+    
+    <path d="M239 258 C247 271 265 271 273 258" fill="none" stroke="#221634" stroke-width="8" stroke-linecap="round"/>
+
+    
+    <path d="M167.8 148.7 C181 127.8 201.1 117.1 222.2 111.3" fill="none" stroke="#EADFF8" stroke-width="14" stroke-linecap="round"/>
+    <circle cx="158" cy="162" r="7" fill="#EADFF8"/>
+  </g>
+  </g>
+</svg>

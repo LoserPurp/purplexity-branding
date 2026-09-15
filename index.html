@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>purplexity branding</title>
+  <meta name="description" content="Logos, icons, wordmark, mascot and backdrops for the Purplexity homelab.">
+  <link rel="icon" type="image/svg+xml" href="assets/svg/logo-outline-purple.svg">
+  <link rel="icon" type="image/png" href="assets/png/logo-outline-purple.png">
+  <style>
+    :root {
+      --ink: #F4EEFB;
+      --ink-soft: rgba(244, 238, 251, 0.72);
+      --ink-faint: rgba(244, 238, 251, 0.14);
+      --blue: #7FD3F0;
+      --deep-ink: #221634;
+      --card: rgba(244, 238, 251, 0.06);
+      --page: #130920;
+      --backdrop: url("assets/webp/backdrop-dark.webp");
+      color-scheme: dark;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --card: rgba(244, 238, 251, 0.09);
+        --page: #6F23AB;
+        --backdrop: url("assets/webp/backdrop-light.webp");
+      }
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: max(40px, env(safe-area-inset-top)) 20px max(56px, env(safe-area-inset-bottom));
+      background: var(--page) var(--backdrop) center / cover fixed no-repeat;
+      color: var(--ink);
+      font: 15px/1.5 Inter, "Segoe UI", system-ui, sans-serif;
+    }
+    main { max-width: 1120px; margin: 0 auto; }
+
+    header { text-align: center; margin-bottom: 48px; }
+    header img { width: min(520px, 100%); height: auto; }
+    header p { color: var(--ink-soft); margin: 18px auto 0; max-width: 560px; }
+    header a { color: var(--blue); }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin: 44px 0 14px;
+    }
+    .grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+    .grid.wide { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--ink-faint);
+      border-radius: 20px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .preview {
+      position: relative;
+      border-radius: 12px;
+      aspect-ratio: 4 / 3;
+      background: rgba(0, 0, 0, 0.18);
+      overflow: hidden;
+    }
+    .wide .preview { aspect-ratio: 16 / 7; }
+    .preview.light { background: #FFFFFF; }
+    /* image fills the box minus a margin and scales down to fit, never cropped */
+    .preview img {
+      position: absolute;
+      inset: 18px;
+      width: calc(100% - 36px);
+      height: calc(100% - 36px);
+      object-fit: contain;
+    }
+    .preview.cover img { inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+    .name { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 13px; }
+    .formats { display: flex; flex-wrap: wrap; gap: 6px; }
+    .formats a, .formats button {
+      font: 600 12px/1 Inter, "Segoe UI", system-ui, sans-serif;
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid var(--ink-faint);
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: transparent;
+      cursor: pointer;
+    }
+    .formats a:hover, .formats button:hover { border-color: var(--blue); color: var(--blue); }
+    .formats button.copied { background: var(--blue); border-color: var(--blue); color: var(--deep-ink); }
+
+    footer { text-align: center; color: var(--ink-soft); margin-top: 56px; font-size: 13px; }
+    footer code { color: var(--ink); }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <img src="assets/svg/lockup.svg" alt="purplexity" width="1380" height="300">
+      <p>Logos, icons, wordmark, mascot and backdrops for the Purplexity homelab.
+         Every asset comes as SVG, PNG, JPG and WebP. Read the
+         <a href="https://github.com/LoserPurp/purplexity-branding#readme">brand guidelines</a>.</p>
+    </header>
+
+    <div id="sections"></div>
+
+    <footer>
+      Link any file directly: <code>/assets/&lt;format&gt;/&lt;name&gt;.&lt;format&gt;</code>.
+      Changed assets live in <code>/assets/&lt;format&gt;/v2/</code>, and version 1 never changes.
+    </footer>
+  </main>
+
+  <script>
+    // name, and how to show its preview: "light" = white background, "cover" = fill the preview
+    const sections = [
+      { title: "Logo", items: [
+        ["logo-outline"], ["logo-outline-purple"], ["logo-outline-dark"],
+        ["logo-outline-black", "light"], ["logo-outline-black-blue", "light"], ["logo-tile"],
+      ]},
+      { title: "Icons", items: [
+        ["icon-purple"], ["icon-dark"], ["mascot-icon-purple"], ["mascot-icon-dark"],
+      ]},
+      { title: "Wordmark & lockup", wide: true, items: [
+        ["wordmark"], ["wordmark-black", "light"], ["wordmark-black-blue", "light"],
+        ["lockup"], ["lockup-black", "light"], ["lockup-black-blue", "light"],
+      ]},
+      { title: "Mascot", items: [
+        ["mascot"], ["mascot-tile"],
+      ]},
+      { title: "Backdrops", wide: true, items: [
+        ["backdrop-light", "cover"], ["backdrop-dark", "cover"],
+      ]},
+      { title: "Login examples", wide: true, items: [
+        ["login-light", "cover"], ["login-dark", "cover"],
+      ]},
+    ];
+    const formats = ["svg", "png", "jpg", "webp"];
+
+    const root = document.getElementById("sections");
+    for (const section of sections) {
+      const h2 = document.createElement("h2");
+      h2.textContent = section.title;
+      const grid = document.createElement("div");
+      grid.className = "grid" + (section.wide ? " wide" : "");
+
+      for (const [name, style] of section.items) {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="preview ${style || ""}">
+            <img src="assets/webp/${name}.webp" alt="${name}" loading="lazy">
+          </div>
+          <div class="name">${name}</div>
+          <div class="formats">
+            ${formats.map(f => `<a href="assets/${f}/${name}.${f}">${f.toUpperCase()}</a>`).join("")}
+            <button type="button" data-url="assets/svg/${name}.svg">Copy SVG link</button>
+          </div>`;
+        grid.append(card);
+      }
+      root.append(h2, grid);
+    }
+
+    root.addEventListener("click", async (event) => {
+      const button = event.target.closest("button[data-url]");
+      if (!button) return;
+      const url = new URL(button.dataset.url, location.href).href;
+      try {
+        await navigator.clipboard.writeText(url);
+        button.textContent = "Copied";
+      } catch {
+        prompt("Copy this link:", url);
+        return;
+      }
+      button.classList.add("copied");
+      setTimeout(() => { button.textContent = "Copy SVG link"; button.classList.remove("copied"); }, 1500);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# Text files: normalise line endings
+*.md    text eol=lf
+*.svg   text eol=lf
+
+# Images: never diff or touch line endings
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.webp  binary
