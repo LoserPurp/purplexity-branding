@@ -349,19 +349,21 @@ The logo, wordmark, lockup and button colors stay the same in both themes. Only 
 
 ---
 
-## Authentik theme · `assets/css/v3/authentik.css`
+## Authentik theme · `assets/css/v4/authentik.css`
 
 Custom CSS that makes the authentik login page match the login examples above: the backdrop follows authentik's light or dark theme, the lockup floats above a glass card, inputs are rounded, and the primary button is an Arc Blue pill.
+
+It also styles the Application Dashboard in the user interface: the backdrop replaces the grey background, application tiles become glass cards with an Arc Blue hover, and the search field, header buttons and card menus match.
 
 To use it, open the file, copy **all of its contents**, and paste them into **Admin → System → Brands → (your brand) → Custom CSS**:
 
 ```
-https://branding.purplexity.no/assets/css/v3/authentik.css
+https://branding.purplexity.no/assets/css/v4/authentik.css
 ```
 
 > Don't use `@import url(...)` to load the file. authentik adds brand CSS to each component's shadow root in a way that doesn't allow `@import`, so only the backdrop would change and the card, inputs and button would keep authentik's default look. Paste the full CSS instead, and paste it again when the file changes.
 
-- authentik applies brand CSS to every interface, so every rule is scoped to the login flow. The user and admin dashboards keep authentik's normal look.
+- authentik applies brand CSS to every interface, so every rule is scoped to the login flow or the user interface. The admin interface keeps authentik's normal look.
 - Set the brand logo to `assets/svg/lockup.svg` and the favicon to `assets/svg/logo-outline-purple.svg`.
 - Tested on the username and password step in Chrome and Firefox, desktop and phone, light and dark.
 - The loading state after pressing **Log in** has no dark box: the card fades slightly and an Arc Blue spinner shows over it.
@@ -371,7 +373,8 @@ https://branding.purplexity.no/assets/css/v3/authentik.css
 |---|---|---|
 | 1 | `assets/css/authentik.css` | First theme |
 | 2 | `assets/css/v2/authentik.css` | Replaces the dark loading box with a faded card and an Arc Blue spinner |
-| 3 | `assets/css/v3/authentik.css` | Error, warning and info alerts in the card get a soft glass style **(current)** |
+| 3 | `assets/css/v3/authentik.css` | Error, warning and info alerts in the card get a soft glass style |
+| 4 | `assets/css/v4/authentik.css` | Styles the user interface's Application Dashboard **(current)** |
 
 ---
 
