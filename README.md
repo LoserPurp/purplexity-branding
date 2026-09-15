@@ -39,7 +39,8 @@ purplexity-branding/
 │   ├── svg/         every asset as .svg
 │   ├── png/         every asset as .png
 │   ├── jpg/         every asset as .jpg
-│   └── webp/        every asset as .webp
+│   ├── webp/        every asset as .webp
+│   └── css/         authentik.css: login page theme for authentik
 └── guidelines/      preview images used in this README
 ```
 
@@ -345,6 +346,23 @@ body { background: #130920 url("backdrop-dark.webp") center / cover no-repeat; }
 | Button | Arc Blue pill, Deep Ink text | Arc Blue pill, Deep Ink text |
 
 The logo, wordmark, lockup and button colors stay the same in both themes. Only the backdrop and the card change.
+
+---
+
+## Authentik theme · `assets/css/authentik.css`
+
+Custom CSS that makes the authentik login page match the login examples above: the backdrop follows authentik's light or dark theme, the lockup floats above a glass card, inputs are rounded, and the primary button is an Arc Blue pill.
+
+To use it, paste the file's contents into **Admin → System → Brands → (your brand) → Custom CSS**, or copy it from:
+
+```
+https://branding.purplexity.no/assets/css/authentik.css
+```
+
+- authentik applies brand CSS to every interface, so every rule is scoped to the login flow. The user and admin dashboards keep authentik's normal look.
+- Set the brand logo to `assets/svg/lockup.svg` and the favicon to `assets/svg/logo-outline-purple.svg`.
+- Tested on the username and password step in Chrome and Firefox, desktop and phone, light and dark.
+- Like the images, the CSS follows the version rule: changes go in `assets/css/v2/authentik.css`.
 
 ---
 
