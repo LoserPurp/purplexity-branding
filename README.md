@@ -349,16 +349,16 @@ The logo, wordmark, lockup and button colors stay the same in both themes. Only 
 
 ---
 
-## Authentik theme · `assets/css/v5/authentik.css`
+## Authentik theme · `assets/css/v6/authentik.css`
 
 Custom CSS that makes the authentik login page match the login examples above: the backdrop follows authentik's light or dark theme, the lockup floats above a glass card, inputs are rounded, and the primary button is an Arc Blue pill.
 
-It also styles the user interface: on the Application Dashboard the backdrop replaces the grey background and application tiles become glass cards with an Arc Blue hover; the settings pages get the same glass cards, a highlighted tab rail, transparent tables and pill buttons.
+It also styles the user interface: on the Application Dashboard the backdrop replaces the grey background and application tiles become glass cards with an Arc Blue hover; the settings pages get the same glass cards, a highlighted tab rail, transparent tables, pill buttons, and matching dialogs and dropdowns.
 
 To use it, open the file, copy **all of its contents**, and paste them into **Admin → System → Brands → (your brand) → Custom CSS**:
 
 ```
-https://branding.purplexity.no/assets/css/v5/authentik.css
+https://branding.purplexity.no/assets/css/v6/authentik.css
 ```
 
 > Don't use `@import url(...)` to load the file. authentik adds brand CSS to each component's shadow root in a way that doesn't allow `@import`, so only the backdrop would change and the card, inputs and button would keep authentik's default look. Paste the full CSS instead, and paste it again when the file changes.
@@ -375,7 +375,8 @@ https://branding.purplexity.no/assets/css/v5/authentik.css
 | 2 | `assets/css/v2/authentik.css` | Replaces the dark loading box with a faded card and an Arc Blue spinner |
 | 3 | `assets/css/v3/authentik.css` | Error, warning and info alerts in the card get a soft glass style |
 | 4 | `assets/css/v4/authentik.css` | Styles the user interface's Application Dashboard |
-| 5 | `assets/css/v5/authentik.css` | Styles the user interface's settings pages **(current)** |
+| 5 | `assets/css/v5/authentik.css` | Styles the user interface's settings pages |
+| 6 | `assets/css/v6/authentik.css` | Fixes the user details card and styles dialogs and dropdowns **(current)** |
 
 ---
 
