@@ -1,0 +1,1192 @@
+/* ==========================================================================
+   Purplexity theme for authentik: login flows and the user interface
+   Paste into: Admin → System → Brands → (your brand) → Custom CSS
+
+   authentik applies brand CSS to every interface (login, user, admin) and to
+   every component's shadow root. Every rule below is scoped to the login flow
+   or the user interface, so the admin interface keeps its normal look:
+     body:has(ak-flow-executor)   the login page itself
+     :host(.pf-c-login)           the login frame (ak-flow-executor)
+     :host(#flow-drawer)          the drawer wrapping the login frame
+     :host([part="challenge"])    the current login step (username, password, ...)
+     :host([part="flow-card"])    the card heading inside a step
+     :host(ak-interface-user)     the user interface: background, header
+     :host(ak-library-impl)       the Application Dashboard
+     :host(ak-user-settings)      the settings pages
+   ========================================================================== */
+
+/* ---- Backdrop: light or dark, following authentik's theme ---- */
+html[data-theme="light"]:has(ak-flow-executor) {
+  --ak-global--background-image: url("https://branding.purplexity.no/assets/svg/backdrop-light.svg");
+}
+html[data-theme="dark"]:has(ak-flow-executor) {
+  --ak-global--background-image: url("https://branding.purplexity.no/assets/svg/backdrop-dark.svg");
+}
+html[data-theme="light"] body:has(ak-flow-executor) {
+  background-color: #6F23AB !important;
+}
+html[data-theme="dark"] body:has(ak-flow-executor) {
+  background-color: #130920 !important;
+}
+/* authentik drops the backdrop image on phones; keep it on every screen size */
+html[data-theme] body:has(ak-flow-executor)::before {
+  background-color: transparent !important;
+  background-image: var(--ak-global--background-image) !important;
+  background-position: center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+/* and on phones it adds a solid layer behind the form: clear it */
+ak-flow-executor.pf-c-login::before {
+  background-color: transparent !important;
+}
+:host(.pf-c-login)::before {
+  background-color: transparent !important;
+}
+:host(#flow-drawer) .pf-c-drawer.pf-m-collapsed .pf-c-drawer__panel {
+  background: transparent !important;
+}
+
+/* ---- Login frame: invisible, so the lockup floats above the card ---- */
+:host(.pf-c-login) .pf-c-login__main {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+:host(.pf-c-login) .pf-c-login__main-header.pf-c-brand {
+  padding: 0 0 28px !important;
+  margin: 0 !important;
+}
+:host(.pf-c-login) .branding-logo {
+  width: 100%;
+  max-width: 360px;
+  max-height: none !important;
+}
+:host(.pf-c-login) .pf-c-login__footer {
+  color: rgba(244, 238, 251, 0.7) !important;
+}
+:host([name="flow-links"]) [part="list-item"] {
+  color: rgba(244, 238, 251, 0.7) !important;
+}
+
+/* ---- Loading state (after pressing Log in) ----
+   authentik covers the logo and card with a dark box and a spinner.
+   Instead: no box, the card fades a little, and an Arc Blue spinner sits over the card. */
+:host(.pf-c-login) ak-loading-overlay {
+  background: transparent !important;
+  top: 106px !important;
+  /* the spinner reads these globals; setting them here only affects this spinner */
+  --pf-global--primary-color--100: #7FD3F0;
+  --pf-global--icon--FontSize--xl: 56px;
+}
+:host(.pf-c-login) .pf-c-login__main:has(ak-loading-overlay) [part="challenge"] {
+  opacity: 0.55;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* ---- Glass card around each login step ---- */
+:host([part="challenge"]) ak-flow-card {
+  display: block;
+  background: rgba(244, 238, 251, 0.08);
+  border: 1px solid rgba(244, 238, 251, 0.22);
+  border-radius: 28px;
+  padding: 36px 40px 32px;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+:host([part="challenge"][theme="dark"]) ak-flow-card {
+  background: rgba(244, 238, 251, 0.05);
+  border-color: rgba(244, 238, 251, 0.14);
+}
+:host([part="flow-card"]) .pf-c-login__main-header,
+:host([part="flow-card"]) .pf-c-login__main-body,
+:host([part="flow-card"]) .pf-c-login__main-footer {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ---- Text ---- */
+:host([part="flow-card"]) .pf-c-title,
+:host([part="challenge"]) .pf-c-title {
+  color: #F4EEFB !important;
+  font-weight: 600 !important;
+}
+:host([part="challenge"]) .pf-c-form__label-text {
+  color: rgba(244, 238, 251, 0.75) !important;
+  font-weight: 400 !important;
+}
+:host([part="challenge"]) .pf-c-form__label-text::after {
+  color: #7FD3F0 !important;
+}
+:host([part="challenge"]) .pf-c-form__helper-text {
+  color: rgba(244, 238, 251, 0.6) !important;
+}
+:host([part="challenge"]) .pf-c-form__helper-text.pf-m-error {
+  color: #FFB4C8 !important;
+}
+:host([part="challenge"]) a,
+:host([part="flow-card"]) a,
+:host([part="challenge"]) .pf-c-button.pf-m-link {
+  color: #7FD3F0 !important;
+}
+
+/* ---- Inputs ---- */
+:host([part="challenge"]) .pf-c-input-group {
+  background: transparent !important;
+}
+:host([part="challenge"]) .pf-c-form-control {
+  --pf-c-form-control--BorderTopColor: transparent;
+  --pf-c-form-control--BorderRightColor: transparent;
+  --pf-c-form-control--BorderBottomColor: transparent;
+  --pf-c-form-control--BorderLeftColor: transparent;
+  background: rgba(34, 22, 52, 0.35) !important;
+  border: 1px solid rgba(244, 238, 251, 0.18) !important;
+  border-radius: 14px !important;
+  color: #F4EEFB !important;
+  min-height: 52px;
+  padding: 0 16px !important;
+  font-style: normal !important;
+}
+:host([part="challenge"][theme="dark"]) .pf-c-form-control {
+  background: rgba(0, 0, 0, 0.45) !important;
+}
+:host([part="challenge"]) .pf-c-form-control::placeholder {
+  color: rgba(244, 238, 251, 0.45) !important;
+  font-style: normal;
+}
+:host([part="challenge"]) .pf-c-form-control:focus,
+:host([part="challenge"]) .pf-c-form-control:focus-visible {
+  border-color: #7FD3F0 !important;
+  box-shadow: 0 0 0 3px rgba(127, 211, 240, 0.25) !important;
+  outline: none !important;
+}
+:host([part="challenge"]) .pf-c-form-control:-webkit-autofill {
+  -webkit-text-fill-color: #F4EEFB;
+  caret-color: #F4EEFB;
+  box-shadow: 0 0 0 1000px #3A1F5C inset !important;
+  transition: background-color 9999s;
+}
+
+/* ---- Primary button: Arc Blue pill ---- */
+:host([part="challenge"]) .pf-c-button.pf-m-primary {
+  --pf-c-button--after--BorderColor: transparent;
+  background: #7FD3F0 !important;
+  color: #221634 !important;
+  border-radius: 999px !important;
+  min-height: 52px;
+  font-weight: 600 !important;
+}
+:host([part="challenge"]) .pf-c-button.pf-m-primary:hover,
+:host([part="challenge"]) .pf-c-button.pf-m-primary:focus-visible {
+  background: #9FDDF4 !important;
+}
+:host([part="challenge"]) .pf-c-button.pf-m-primary::after {
+  border: 0 !important;
+}
+
+/* ---- Footer links under the button ("Forgot username or password?", sign-up) ---- */
+:host([part="challenge"]) .pf-c-login__main-footer-band {
+  margin: 20px 0 4px !important;
+  padding: 18px 0 12px !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(244, 238, 251, 0.12) !important;
+  background: transparent !important;
+  text-align: center;
+}
+:host([part="challenge"]) .pf-c-login__main-footer-band-item {
+  padding: 4px 0 !important;
+  color: rgba(244, 238, 251, 0.7) !important;
+}
+:host([part="challenge"]) .pf-c-login__main-footer-band-item a {
+  color: #7FD3F0 !important;
+  text-decoration: none !important;
+}
+:host([part="challenge"]) .pf-c-login__main-footer-band-item a:hover,
+:host([part="challenge"]) .pf-c-login__main-footer-band-item a:focus-visible {
+  text-decoration: underline !important;
+}
+
+/* ---- Alerts inside the card ("Failed to authenticate." and similar) ----
+   Soft glass boxes that match the card instead of authentik's solid grey or pink bars. */
+:host([part="challenge"]) .pf-c-alert.pf-m-inline {
+  --pf-c-alert--BorderTopWidth: 0;
+  --pf-c-alert--BoxShadow: none;
+  background: rgba(127, 211, 240, 0.12) !important;
+  border: 1px solid rgba(127, 211, 240, 0.35) !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+  padding: 12px 16px !important;
+  align-items: center;
+}
+:host([part="challenge"]) .pf-c-alert.pf-m-inline .pf-c-alert__icon {
+  color: #7FD3F0 !important;
+}
+:host([part="challenge"]) .pf-c-alert.pf-m-inline .pf-c-alert__title {
+  color: #F4EEFB !important;
+  font-weight: 500 !important;
+}
+/* errors: rose tint */
+:host([part="challenge"]) .pf-c-alert.pf-m-inline.pf-m-danger {
+  background: rgba(255, 120, 160, 0.14) !important;
+  border-color: rgba(255, 180, 200, 0.4) !important;
+}
+:host([part="challenge"]) .pf-c-alert.pf-m-inline.pf-m-danger .pf-c-alert__icon {
+  color: #FFB4C8 !important;
+}
+/* warnings: warm amber tint */
+:host([part="challenge"]) .pf-c-alert.pf-m-inline.pf-m-warning {
+  background: rgba(255, 200, 110, 0.14) !important;
+  border-color: rgba(255, 214, 140, 0.4) !important;
+}
+:host([part="challenge"]) .pf-c-alert.pf-m-inline.pf-m-warning .pf-c-alert__icon {
+  color: #FFD68C !important;
+}
+
+/* ---- Phones: keep the card off the screen edges ---- */
+@media (max-width: 600px) {
+  :host(.pf-c-login) .pf-c-login__main {
+    padding: 0 16px !important;
+  }
+  :host(.pf-c-login) .branding-logo {
+    max-width: 280px;
+  }
+  :host(.pf-c-login) ak-loading-overlay {
+    top: 89px !important;
+  }
+  :host([part="challenge"]) ak-flow-card {
+    padding: 28px 22px 24px;
+    border-radius: 24px;
+  }
+}
+
+
+/* ==========================================================================
+   User interface: Application Dashboard
+   ========================================================================== */
+
+/* ---- Background: the backdrop instead of the grey slant ---- */
+html[data-theme="light"] body:has(ak-interface-user) {
+  background-color: #6F23AB !important;
+}
+html[data-theme="dark"] body:has(ak-interface-user) {
+  background-color: #130920 !important;
+}
+:host(ak-interface-user) [part="background-wrapper"] {
+  background: #6F23AB url("https://branding.purplexity.no/assets/svg/backdrop-light.svg") center / cover no-repeat !important;
+}
+:host(ak-interface-user[theme="dark"]) [part="background-wrapper"] {
+  background: #130920 url("https://branding.purplexity.no/assets/svg/backdrop-dark.svg") center / cover no-repeat !important;
+}
+:host(ak-interface-user) [part="background-default-slant"] {
+  display: none !important;
+}
+
+/* ---- Header: see-through, Lilac White icons, "Admin interface" as an outline pill ---- */
+:host(ak-interface-user) .pf-c-page__header {
+  background: transparent !important;
+}
+:host(ak-interface-user) ak-nav-buttons {
+  --purplexity-nav-icon: rgba(244, 238, 251, 0.85);
+  --purplexity-nav-icon-hover: #7FD3F0;
+}
+/* ak-nav-buttons is shared with the admin header. These variables only exist inside the
+   user interface; everywhere else the fallback is authentik's own default. */
+:host(ak-nav-buttons) .pf-c-button.pf-m-plain {
+  --pf-c-button--m-plain--Color: var(--purplexity-nav-icon, var(--pf-global--Color--200));
+  --pf-c-button--m-plain--hover--Color: var(--purplexity-nav-icon-hover, var(--pf-global--Color--100));
+  --pf-c-button--m-plain--focus--Color: var(--purplexity-nav-icon-hover, var(--pf-global--Color--100));
+}
+:host(ak-interface-user) .pf-c-button.pf-m-secondary[slot="extra"] {
+  --pf-c-button--after--BorderColor: transparent;
+  color: #F4EEFB !important;
+  background: rgba(244, 238, 251, 0.06) !important;
+  border: 1px solid rgba(244, 238, 251, 0.35) !important;
+  border-radius: 999px !important;
+  padding-inline: 16px !important;
+}
+:host(ak-interface-user) .pf-c-button.pf-m-secondary[slot="extra"]:hover {
+  border-color: #7FD3F0 !important;
+  color: #7FD3F0 !important;
+}
+:host(ak-interface-user) .pf-c-button.pf-m-secondary[slot="extra"]::after {
+  border: 0 !important;
+}
+
+/* ---- Page layers: transparent so the backdrop shows ---- */
+:host(ak-library-impl) .pf-c-page__main,
+:host(ak-library-impl) .pf-c-page__main-section,
+:host(ak-library-impl) .pf-c-page__header {
+  background: transparent !important;
+}
+:host(ak-library-impl) .pf-c-page__title {
+  color: #F4EEFB !important;
+  font-weight: 600 !important;
+}
+
+/* ---- Search field ---- */
+:host(ak-library-impl) [part="search-input"] {
+  --pf-c-form-control--BorderBottomColor: transparent;
+  background: rgba(34, 22, 52, 0.35) !important;
+  border: 1px solid rgba(244, 238, 251, 0.18) !important;
+  border-radius: 999px !important;
+  color: #F4EEFB !important;
+  min-height: 44px;
+  padding: 0 18px !important;
+  font-style: normal !important;
+}
+:host(ak-library-impl[theme="dark"]) [part="search-input"] {
+  background: rgba(0, 0, 0, 0.45) !important;
+}
+:host(ak-library-impl) [part="search-input"]::placeholder {
+  color: rgba(244, 238, 251, 0.5) !important;
+  font-style: normal;
+}
+:host(ak-library-impl) [part="search-input"]:focus,
+:host(ak-library-impl) [part="search-input"]:focus-visible {
+  border-color: #7FD3F0 !important;
+  box-shadow: 0 0 0 3px rgba(127, 211, 240, 0.25) !important;
+  outline: none !important;
+}
+
+/* ---- Application cards: glass tiles ---- */
+:host(ak-library-impl) [part="card"] {
+  background: rgba(244, 238, 251, 0.08) !important;
+  border: 1px solid rgba(244, 238, 251, 0.22) !important;
+  border-radius: 20px !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+:host(ak-library-impl[theme="dark"]) [part="card"] {
+  background: rgba(244, 238, 251, 0.05) !important;
+  border-color: rgba(244, 238, 251, 0.14) !important;
+}
+:host(ak-library-impl) [part="card"]:hover,
+:host(ak-library-impl) [part="card"]:focus-within {
+  background: rgba(244, 238, 251, 0.12) !important;
+  border-color: #7FD3F0 !important;
+  transform: translateY(-2px);
+}
+:host(ak-library-impl) [part="card"]::before,
+:host(ak-library-impl) [part="card"]::after {
+  border: 0 !important;
+}
+:host(ak-library-impl) [part="card-title"],
+:host(ak-library-impl) [part="card-title"] *,
+:host(ak-library-impl) [part="card-header"],
+:host(ak-library-impl) .card-header-aspect-wrapper {
+  color: #F4EEFB !important;
+  font-weight: 600 !important;
+  /* light theme adds a white text outline for contrast; not needed on the glass cards */
+  -webkit-text-stroke: 0 !important;
+  paint-order: normal !important;
+  text-decoration: none !important;
+}
+:host(ak-library-impl) ak-app-icon::part(insignia) {
+  color: #7FD3F0;
+}
+:host(ak-library-impl) ak-app-icon::part(image) {
+  border-radius: 14px;
+}
+
+/* ---- Card menu (⋮) ---- */
+:host(ak-library-impl) [part="card-header-actions-button"] {
+  color: rgba(244, 238, 251, 0.7) !important;
+}
+:host(ak-library-impl) [part="card-header-actions-button"] {
+  border-radius: 999px !important;
+  width: 32px;
+  height: 32px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  background: transparent !important;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+:host(ak-library-impl) [part="card-header-actions-button"]:hover,
+:host(ak-library-impl) [part="card-header-actions-button"]:focus-visible,
+:host(ak-library-impl) [part="card-header-actions-button"][aria-expanded="true"] {
+  color: #7FD3F0 !important;
+  background: rgba(127, 211, 240, 0.16) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 1px rgba(127, 211, 240, 0.45) !important;
+}
+:host(ak-library-impl) [part="card-header-actions-button"]::before,
+:host(ak-library-impl) [part="card-header-actions-button"]::after {
+  border: 0 !important;
+  background: transparent !important;
+}
+:host(ak-library-impl) [part="card-header-actions-menu"] {
+  background: #2A1A40 !important;
+  border: 1px solid rgba(244, 238, 251, 0.18) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 32px rgba(7, 5, 13, 0.45) !important;
+  overflow: hidden;
+}
+:host(ak-library-impl[theme="dark"]) [part="card-header-actions-menu"] {
+  background: #130920 !important;
+}
+:host(ak-library-impl) [part="card-header-action"],
+:host(ak-library-impl) [part="card-header-action-description"] {
+  color: #F4EEFB !important;
+  background: transparent !important;
+}
+:host(ak-library-impl) a[part="card-header-action"]:hover {
+  background: rgba(127, 211, 240, 0.12) !important;
+  color: #7FD3F0 !important;
+}
+:host(ak-library-impl) [part="app-group-separator"],
+:host(ak-library-impl) .pf-c-divider {
+  border-color: rgba(244, 238, 251, 0.08) !important;
+  background-color: rgba(244, 238, 251, 0.08) !important;
+}
+:host(ak-library-impl) [part="card-header-actions-menu"] .pf-c-divider::after {
+  background-color: rgba(244, 238, 251, 0.14) !important;
+}
+:host(ak-library-impl) [part="card"] a,
+:host(ak-library-impl) [part="card"] a:hover {
+  text-decoration: none !important;
+}
+:host(ak-library-impl) [part="app-group-header"] h2 {
+  color: rgba(244, 238, 251, 0.75) !important;
+}
+
+
+/* ==========================================================================
+   User interface: settings pages
+   ========================================================================== */
+
+/* Brand colours as PatternFly tokens on the settings subtree. Custom properties cross
+   shadow boundaries, so the tables, toolbars and buttons inside inherit them, while
+   everything outside the settings pages keeps authentik's own tokens. */
+:host(ak-user-settings) .pf-c-page__main-section,
+:host(ak-user-settings) .pf-c-card {
+  --pf-global--BackgroundColor--100: transparent;
+  --pf-global--BackgroundColor--150: transparent;
+  --pf-global--BackgroundColor--200: transparent;
+  --pf-global--Color--100: #F4EEFB;
+  --pf-global--Color--200: rgba(244, 238, 251, 0.75);
+  --pf-global--BorderColor--100: rgba(244, 238, 251, 0.18);
+  --pf-global--BorderColor--300: rgba(244, 238, 251, 0.12);
+  --pf-global--link--Color: #7FD3F0;
+  --pf-global--link--Color--hover: #9FDDF4;
+  --pf-global--primary-color--100: #7FD3F0;
+  --pf-global--active-color--100: #7FD3F0;
+  color: #F4EEFB;
+}
+
+/* ---- Page and panels: transparent so the backdrop shows ---- */
+:host(ak-user-settings) .pf-c-page,
+:host(ak-user-settings) .pf-c-page__main,
+:host(ak-user-settings) .pf-c-page__main-section {
+  background: transparent !important;
+}
+
+/* ---- Cards: same glass as everywhere else ---- */
+:host(ak-user-settings) .pf-c-card {
+  background: rgba(244, 238, 251, 0.08) !important;
+  border: 1px solid rgba(244, 238, 251, 0.22) !important;
+  border-radius: 20px !important;
+  box-shadow: none !important;
+  /* no backdrop-filter here: it would make dialogs inside the card position against
+     the card instead of the screen, squeezing them into the card */
+}
+:host(ak-user-settings[theme="dark"]) .pf-c-card {
+  background: rgba(244, 238, 251, 0.05) !important;
+  border-color: rgba(244, 238, 251, 0.14) !important;
+}
+:host(ak-user-settings-flow-executor) .pf-c-card,
+:host(ak-user-settings-password) .pf-c-card {
+  background: rgba(244, 238, 251, 0.08) !important;
+  border: 1px solid rgba(244, 238, 251, 0.22) !important;
+  border-radius: 20px !important;
+  box-shadow: none !important;
+}
+:host(ak-user-settings-flow-executor[theme="dark"]) .pf-c-card,
+:host(ak-user-settings-password[theme="dark"]) .pf-c-card {
+  background: rgba(244, 238, 251, 0.05) !important;
+  border-color: rgba(244, 238, 251, 0.14) !important;
+}
+/* "Change your password" card: title, text and its button */
+:host(ak-user-settings-password) .pf-c-card__title,
+:host(ak-user-settings-flow-executor) .pf-c-card__title {
+  color: #F4EEFB !important;
+  font-weight: 600 !important;
+}
+:host(ak-user-settings-password) .pf-c-card__body,
+:host(ak-user-settings-flow-executor) .pf-c-card__body {
+  color: rgba(244, 238, 251, 0.8) !important;
+}
+:host(ak-user-settings-password) .pf-c-button.pf-m-primary,
+:host(ak-user-settings-flow-executor) .pf-c-button.pf-m-primary {
+  background: #7FD3F0 !important;
+  color: #221634 !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+}
+:host(ak-user-settings-password) .pf-c-button::after,
+:host(ak-user-settings-flow-executor) .pf-c-button::after {
+  border: 0 !important;
+}
+:host(ak-user-settings) .pf-c-card__title,
+:host(ak-user-settings) .pf-c-title {
+  color: #F4EEFB !important;
+  font-weight: 600 !important;
+}
+
+/* ---- Vertical tab rail (only the settings pages use vertical tabs) ---- */
+:host(ak-tabs) .pf-c-tabs.pf-m-vertical {
+  --pf-c-tabs__link--BackgroundColor: transparent;
+  background: transparent !important;
+}
+:host(ak-tabs) .pf-c-tabs.pf-m-vertical .pf-c-tabs__list {
+  background: transparent !important;
+}
+:host(ak-tabs) .pf-c-tabs.pf-m-vertical [part="tab-item"] {
+  border-color: rgba(244, 238, 251, 0.12) !important;
+}
+:host(ak-tabs) .pf-c-tabs.pf-m-vertical [part="tab-button"] {
+  background: transparent !important;
+  color: rgba(244, 238, 251, 0.75) !important;
+  border-radius: 12px;
+}
+:host(ak-tabs) .pf-c-tabs.pf-m-vertical [part="tab-button"]:hover {
+  background: rgba(244, 238, 251, 0.08) !important;
+  color: #F4EEFB !important;
+}
+:host(ak-tabs) .pf-c-tabs.pf-m-vertical .pf-m-current [part="tab-button"],
+:host(ak-tabs) .pf-c-tabs.pf-m-vertical [part="tab-button"][aria-selected="true"] {
+  background: rgba(127, 211, 240, 0.12) !important;
+  color: #F4EEFB !important;
+}
+:host(ak-tabs) .pf-c-tabs.pf-m-vertical .pf-c-tabs__link::before,
+:host(ak-tabs) .pf-c-tabs.pf-m-vertical .pf-c-tabs__link::after {
+  border-color: transparent !important;
+}
+:host(ak-tabs) .pf-c-tabs.pf-m-vertical .pf-m-current .pf-c-tabs__link::after {
+  border-color: #7FD3F0 !important;
+}
+
+/* ---- Tables and toolbars inside the settings cards ---- */
+:host(ak-user-settings) .pf-c-toolbar,
+:host(ak-user-settings) [part="toolbar"],
+:host(ak-user-settings) [part="table"],
+:host(ak-user-settings) .pf-c-table tbody,
+:host(ak-user-settings) .pf-c-table tr {
+  background: transparent !important;
+}
+:host(ak-user-settings) .pf-c-table th,
+:host(ak-user-settings) .pf-c-table td {
+  border-color: rgba(244, 238, 251, 0.12) !important;
+  color: #F4EEFB !important;
+}
+
+/* ---- Buttons inside the settings pages ---- */
+:host(ak-user-settings) .pf-c-button.pf-m-primary,
+:host(ak-user-settings) [part="spinner-button"].pf-m-primary {
+  --pf-c-button--after--BorderColor: transparent;
+  background: #7FD3F0 !important;
+  color: #221634 !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+}
+:host(ak-user-settings) .pf-c-button.pf-m-secondary,
+:host(ak-user-settings) [part="spinner-button"].pf-m-secondary {
+  --pf-c-button--after--BorderColor: transparent;
+  background: rgba(244, 238, 251, 0.06) !important;
+  color: #F4EEFB !important;
+  border: 1px solid rgba(244, 238, 251, 0.35) !important;
+  border-radius: 999px !important;
+}
+:host(ak-user-settings) .pf-c-button.pf-m-danger {
+  background: #E4577F !important;
+  color: #FFFFFF !important;
+  border-radius: 999px !important;
+}
+:host(ak-user-settings) .pf-c-button::after {
+  border: 0 !important;
+}
+
+/* ---- Form fields inside the settings pages ---- */
+:host(ak-user-settings) .pf-c-form-control {
+  background: rgba(34, 22, 52, 0.35) !important;
+  border: 1px solid rgba(244, 238, 251, 0.18) !important;
+  border-radius: 12px !important;
+  color: #F4EEFB !important;
+}
+:host(ak-user-settings[theme="dark"]) .pf-c-form-control {
+  background: rgba(0, 0, 0, 0.45) !important;
+}
+:host(ak-user-settings) .pf-c-form-control:focus {
+  border-color: #7FD3F0 !important;
+  box-shadow: 0 0 0 3px rgba(127, 211, 240, 0.25) !important;
+  outline: none !important;
+}
+
+/* ---- Inside the settings list components (sessions, consents, tokens, MFA, sources) ----
+   These element names only exist in the settings pages, so the admin tables are untouched. */
+:host(ak-user-session-list) [part="toolbar"],
+:host(ak-user-consent-list) [part="toolbar"],
+:host(ak-user-token-list) [part="toolbar"],
+:host(ak-user-settings-mfa) [part="toolbar"],
+:host(ak-user-settings-source) [part="toolbar"],
+:host(ak-user-settings-flow-executor) [part="toolbar"],
+:host(ak-user-token-form) [part="toolbar"],
+:host(ak-user-session-list) .pf-c-toolbar,
+:host(ak-user-consent-list) .pf-c-toolbar,
+:host(ak-user-token-list) .pf-c-toolbar,
+:host(ak-user-settings-mfa) .pf-c-toolbar,
+:host(ak-user-settings-source) .pf-c-toolbar,
+:host(ak-user-settings-flow-executor) .pf-c-toolbar,
+:host(ak-user-token-form) .pf-c-toolbar,
+:host(ak-user-session-list) [part="table"],
+:host(ak-user-consent-list) [part="table"],
+:host(ak-user-token-list) [part="table"],
+:host(ak-user-settings-mfa) [part="table"],
+:host(ak-user-settings-source) [part="table"],
+:host(ak-user-settings-flow-executor) [part="table"],
+:host(ak-user-token-form) [part="table"],
+:host(ak-user-session-list) .pf-c-table tbody,
+:host(ak-user-consent-list) .pf-c-table tbody,
+:host(ak-user-token-list) .pf-c-table tbody,
+:host(ak-user-settings-mfa) .pf-c-table tbody,
+:host(ak-user-settings-source) .pf-c-table tbody,
+:host(ak-user-settings-flow-executor) .pf-c-table tbody,
+:host(ak-user-token-form) .pf-c-table tbody,
+:host(ak-user-session-list) .pf-c-table tr,
+:host(ak-user-consent-list) .pf-c-table tr,
+:host(ak-user-token-list) .pf-c-table tr,
+:host(ak-user-settings-mfa) .pf-c-table tr,
+:host(ak-user-settings-source) .pf-c-table tr,
+:host(ak-user-settings-flow-executor) .pf-c-table tr,
+:host(ak-user-token-form) .pf-c-table tr,
+:host(ak-user-session-list) .pf-c-card,
+:host(ak-user-consent-list) .pf-c-card,
+:host(ak-user-token-list) .pf-c-card,
+:host(ak-user-settings-mfa) .pf-c-card,
+:host(ak-user-settings-source) .pf-c-card,
+:host(ak-user-token-form) .pf-c-card,
+:host(ak-user-session-list) [part="pagination-bottom"],
+:host(ak-user-consent-list) [part="pagination-bottom"],
+:host(ak-user-token-list) [part="pagination-bottom"],
+:host(ak-user-settings-mfa) [part="pagination-bottom"],
+:host(ak-user-settings-source) [part="pagination-bottom"],
+:host(ak-user-settings-flow-executor) [part="pagination-bottom"],
+:host(ak-user-token-form) [part="pagination-bottom"],
+:host(ak-user-session-list) .pf-c-pagination,
+:host(ak-user-consent-list) .pf-c-pagination,
+:host(ak-user-token-list) .pf-c-pagination,
+:host(ak-user-settings-mfa) .pf-c-pagination,
+:host(ak-user-settings-source) .pf-c-pagination,
+:host(ak-user-settings-flow-executor) .pf-c-pagination,
+:host(ak-user-token-form) .pf-c-pagination {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+:host(ak-user-session-list) [part="toolbar"],
+:host(ak-user-consent-list) [part="toolbar"],
+:host(ak-user-token-list) [part="toolbar"],
+:host(ak-user-settings-mfa) [part="toolbar"],
+:host(ak-user-settings-source) [part="toolbar"],
+:host(ak-user-settings-flow-executor) [part="toolbar"],
+:host(ak-user-token-form) [part="toolbar"] {
+  border-bottom: 1px solid rgba(244, 238, 251, 0.12) !important;
+}
+:host(ak-user-session-list) .pf-c-table th,
+:host(ak-user-consent-list) .pf-c-table th,
+:host(ak-user-token-list) .pf-c-table th,
+:host(ak-user-settings-mfa) .pf-c-table th,
+:host(ak-user-settings-source) .pf-c-table th,
+:host(ak-user-settings-flow-executor) .pf-c-table th,
+:host(ak-user-token-form) .pf-c-table th,
+:host(ak-user-session-list) .pf-c-table td,
+:host(ak-user-consent-list) .pf-c-table td,
+:host(ak-user-token-list) .pf-c-table td,
+:host(ak-user-settings-mfa) .pf-c-table td,
+:host(ak-user-settings-source) .pf-c-table td,
+:host(ak-user-settings-flow-executor) .pf-c-table td,
+:host(ak-user-token-form) .pf-c-table td,
+:host(ak-user-session-list) .pf-c-table__text,
+:host(ak-user-consent-list) .pf-c-table__text,
+:host(ak-user-token-list) .pf-c-table__text,
+:host(ak-user-settings-mfa) .pf-c-table__text,
+:host(ak-user-settings-source) .pf-c-table__text,
+:host(ak-user-settings-flow-executor) .pf-c-table__text,
+:host(ak-user-token-form) .pf-c-table__text,
+:host(ak-user-session-list) .pf-c-title,
+:host(ak-user-consent-list) .pf-c-title,
+:host(ak-user-token-list) .pf-c-title,
+:host(ak-user-settings-mfa) .pf-c-title,
+:host(ak-user-settings-source) .pf-c-title,
+:host(ak-user-settings-flow-executor) .pf-c-title,
+:host(ak-user-token-form) .pf-c-title,
+:host(ak-user-session-list) .pf-c-card__title,
+:host(ak-user-consent-list) .pf-c-card__title,
+:host(ak-user-token-list) .pf-c-card__title,
+:host(ak-user-settings-mfa) .pf-c-card__title,
+:host(ak-user-settings-source) .pf-c-card__title,
+:host(ak-user-settings-flow-executor) .pf-c-card__title,
+:host(ak-user-token-form) .pf-c-card__title {
+  color: #F4EEFB !important;
+  border-color: rgba(244, 238, 251, 0.12) !important;
+}
+:host(ak-user-session-list) .pf-c-empty-state,
+:host(ak-user-consent-list) .pf-c-empty-state,
+:host(ak-user-token-list) .pf-c-empty-state,
+:host(ak-user-settings-mfa) .pf-c-empty-state,
+:host(ak-user-settings-source) .pf-c-empty-state,
+:host(ak-user-settings-flow-executor) .pf-c-empty-state,
+:host(ak-user-token-form) .pf-c-empty-state,
+:host(ak-user-session-list) .pf-c-empty-state__body,
+:host(ak-user-consent-list) .pf-c-empty-state__body,
+:host(ak-user-token-list) .pf-c-empty-state__body,
+:host(ak-user-settings-mfa) .pf-c-empty-state__body,
+:host(ak-user-settings-source) .pf-c-empty-state__body,
+:host(ak-user-settings-flow-executor) .pf-c-empty-state__body,
+:host(ak-user-token-form) .pf-c-empty-state__body {
+  color: rgba(244, 238, 251, 0.75) !important;
+}
+
+/* buttons rendered inside those components */
+:host(ak-user-session-list) .pf-c-button.pf-m-primary,
+:host(ak-user-consent-list) .pf-c-button.pf-m-primary,
+:host(ak-user-token-list) .pf-c-button.pf-m-primary,
+:host(ak-user-settings-mfa) .pf-c-button.pf-m-primary,
+:host(ak-user-settings-source) .pf-c-button.pf-m-primary,
+:host(ak-user-settings-flow-executor) .pf-c-button.pf-m-primary,
+:host(ak-user-token-form) .pf-c-button.pf-m-primary {
+  background: #7FD3F0 !important;
+  color: #221634 !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+}
+:host(ak-user-session-list) .pf-c-button.pf-m-secondary,
+:host(ak-user-consent-list) .pf-c-button.pf-m-secondary,
+:host(ak-user-token-list) .pf-c-button.pf-m-secondary,
+:host(ak-user-settings-mfa) .pf-c-button.pf-m-secondary,
+:host(ak-user-settings-source) .pf-c-button.pf-m-secondary,
+:host(ak-user-settings-flow-executor) .pf-c-button.pf-m-secondary,
+:host(ak-user-token-form) .pf-c-button.pf-m-secondary {
+  background: rgba(244, 238, 251, 0.06) !important;
+  color: #F4EEFB !important;
+  border: 1px solid rgba(244, 238, 251, 0.35) !important;
+  border-radius: 999px !important;
+}
+:host(ak-user-session-list) .pf-c-button.pf-m-danger,
+:host(ak-user-consent-list) .pf-c-button.pf-m-danger,
+:host(ak-user-token-list) .pf-c-button.pf-m-danger,
+:host(ak-user-settings-mfa) .pf-c-button.pf-m-danger,
+:host(ak-user-settings-source) .pf-c-button.pf-m-danger,
+:host(ak-user-settings-flow-executor) .pf-c-button.pf-m-danger,
+:host(ak-user-token-form) .pf-c-button.pf-m-danger {
+  background: #E4577F !important;
+  color: #FFFFFF !important;
+  border-radius: 999px !important;
+}
+:host(ak-user-session-list) .pf-c-button::after,
+:host(ak-user-consent-list) .pf-c-button::after,
+:host(ak-user-token-list) .pf-c-button::after,
+:host(ak-user-settings-mfa) .pf-c-button::after,
+:host(ak-user-settings-source) .pf-c-button::after,
+:host(ak-user-settings-flow-executor) .pf-c-button::after,
+:host(ak-user-token-form) .pf-c-button::after {
+  border: 0 !important;
+}
+
+/* ak-spinner-button and ak-table-search are shared with the admin interface, so style them
+   through PatternFly's own variables, set on the elements inside the settings components only. */
+:host(ak-user-session-list) ak-spinner-button,
+:host(ak-user-consent-list) ak-spinner-button,
+:host(ak-user-token-list) ak-spinner-button,
+:host(ak-user-settings-mfa) ak-spinner-button,
+:host(ak-user-settings-source) ak-spinner-button,
+:host(ak-user-settings-flow-executor) ak-spinner-button,
+:host(ak-user-token-form) ak-spinner-button {
+  --pf-c-button--BorderRadius: 999px;
+  --pf-c-button--m-secondary--Color: #F4EEFB;
+  --pf-c-button--m-secondary--BorderColor: rgba(244, 238, 251, 0.35);
+  --pf-c-button--m-secondary--BackgroundColor: rgba(244, 238, 251, 0.06);
+  --pf-c-button--m-secondary--hover--Color: #7FD3F0;
+  --pf-c-button--m-secondary--hover--BorderColor: #7FD3F0;
+  --pf-c-button--m-primary--BackgroundColor: #7FD3F0;
+  --pf-c-button--m-primary--Color: #221634;
+}
+:host(ak-user-session-list) ak-table-search,
+:host(ak-user-consent-list) ak-table-search,
+:host(ak-user-token-list) ak-table-search,
+:host(ak-user-settings-mfa) ak-table-search,
+:host(ak-user-settings-source) ak-table-search,
+:host(ak-user-settings-flow-executor) ak-table-search,
+:host(ak-user-token-form) ak-table-search {
+  --pf-c-form-control--BackgroundColor: rgba(0, 0, 0, 0.35);
+  --pf-c-form-control--Color: #F4EEFB;
+  --pf-c-form-control--BorderRadius: 999px;
+  --pf-c-form-control--BorderBottomColor: rgba(244, 238, 251, 0.25);
+  --pf-c-form-control--focus--BorderBottomColor: #7FD3F0;
+  --pf-c-form-control--PaddingLeft: 16px;
+}
+
+/* Values for the shared components below. They only exist on the settings pages. */
+:host(ak-user-settings) .pf-c-page {
+  --px-btn-radius: 999px;
+  --px-btn-sec-color: #F4EEFB;
+  --px-btn-sec-border: rgba(244, 238, 251, 0.35);
+  --px-btn-sec-bg: rgba(244, 238, 251, 0.06);
+  --px-field-radius: 999px;
+  --px-field-bg: rgba(0, 0, 0, 0.35);
+  --px-field-color: #F4EEFB;
+  --px-field-pad: 18px;
+}
+/* ak-spinner-button ("Refresh") and ak-table-search are shared with the admin interface.
+   authentik sets PatternFly's variables on the elements themselves, so the values have to be
+   set in here too - with authentik's own defaults as the fallback outside the settings pages. */
+:host(ak-spinner-button) #spinner-button.pf-c-button.pf-m-secondary {
+  --pf-c-button--BorderRadius: var(--px-btn-radius, 3px);
+  --pf-c-button--m-secondary--Color: var(--px-btn-sec-color, var(--pf-global--primary-color--100));
+  --pf-c-button--m-secondary--BorderColor: var(--px-btn-sec-border, var(--pf-global--primary-color--100));
+  --pf-c-button--m-secondary--BackgroundColor: var(--px-btn-sec-bg, transparent);
+  --pf-c-button--m-secondary--hover--Color: var(--px-btn-sec-color, var(--pf-global--primary-color--100));
+  --pf-c-button--m-secondary--hover--BackgroundColor: var(--px-btn-sec-bg, transparent);
+  /* PatternFly draws the button border in ::after, with its own colour and radius */
+  --pf-c-button--after--BorderColor: var(--px-btn-sec-border, var(--pf-global--primary-color--100));
+  --pf-c-button--after--BorderRadius: var(--px-btn-radius, 3px);
+  border-radius: var(--px-btn-radius, 3px) !important;
+  color: var(--px-btn-sec-color, var(--pf-c-button--m-secondary--Color)) !important;
+  border-color: var(--px-btn-sec-border, var(--pf-c-button--m-secondary--BorderColor)) !important;
+  background-color: var(--px-btn-sec-bg, var(--pf-c-button--m-secondary--BackgroundColor)) !important;
+}
+:host(ak-table-search) input.pf-c-form-control,
+:host(ak-table-search) .pf-c-form-control {
+  border-radius: var(--px-field-radius, var(--pf-c-form-control--BorderRadius, 0)) !important;
+  background-color: var(--px-field-bg, var(--pf-c-form-control--BackgroundColor)) !important;
+  color: var(--px-field-color, var(--pf-c-form-control--Color)) !important;
+  padding-inline: var(--px-field-pad, var(--pf-c-form-control--PaddingLeft, 0.5rem)) var(--px-field-pad, var(--pf-c-form-control--PaddingRight, 0.5rem)) !important;
+}
+
+
+/* ---- Dropdowns inside the settings pages (the MFA "Enroll" menu) ---- */
+:host(ak-user-session-list) .pf-c-dropdown__toggle,
+:host(ak-user-consent-list) .pf-c-dropdown__toggle,
+:host(ak-user-token-list) .pf-c-dropdown__toggle,
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle,
+:host(ak-user-settings-source) .pf-c-dropdown__toggle,
+:host(ak-user-token-form) .pf-c-dropdown__toggle {
+  background: #7FD3F0 !important;
+  color: #221634 !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+}
+:host(ak-user-session-list) .pf-c-dropdown__toggle::after,
+:host(ak-user-consent-list) .pf-c-dropdown__toggle::after,
+:host(ak-user-token-list) .pf-c-dropdown__toggle::after,
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle::after,
+:host(ak-user-settings-source) .pf-c-dropdown__toggle::after,
+:host(ak-user-token-form) .pf-c-dropdown__toggle::after {
+  border: 0 !important;
+}
+:host(ak-user-session-list) .pf-c-dropdown__menu,
+:host(ak-user-consent-list) .pf-c-dropdown__menu,
+:host(ak-user-token-list) .pf-c-dropdown__menu,
+:host(ak-user-settings-mfa) .pf-c-dropdown__menu,
+:host(ak-user-settings-source) .pf-c-dropdown__menu,
+:host(ak-user-token-form) .pf-c-dropdown__menu {
+  background: #2A1A40 !important;
+  border: 1px solid rgba(244, 238, 251, 0.18) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 32px rgba(7, 5, 13, 0.45) !important;
+  padding: 6px !important;
+  overflow: hidden;
+}
+:host(ak-user-session-list) .pf-c-dropdown__menu-item,
+:host(ak-user-consent-list) .pf-c-dropdown__menu-item,
+:host(ak-user-token-list) .pf-c-dropdown__menu-item,
+:host(ak-user-settings-mfa) .pf-c-dropdown__menu-item,
+:host(ak-user-settings-source) .pf-c-dropdown__menu-item,
+:host(ak-user-token-form) .pf-c-dropdown__menu-item {
+  background: transparent !important;
+  color: #F4EEFB !important;
+  border-radius: 10px !important;
+}
+:host(ak-user-session-list) .pf-c-dropdown__menu-item:hover,
+:host(ak-user-consent-list) .pf-c-dropdown__menu-item:hover,
+:host(ak-user-token-list) .pf-c-dropdown__menu-item:hover,
+:host(ak-user-settings-mfa) .pf-c-dropdown__menu-item:hover,
+:host(ak-user-settings-source) .pf-c-dropdown__menu-item:hover,
+:host(ak-user-token-form) .pf-c-dropdown__menu-item:hover {
+  background: rgba(127, 211, 240, 0.12) !important;
+  color: #7FD3F0 !important;
+}
+
+/* ---- Form fields inside the settings dialogs (New Token, New App Password) ---- */
+:host(ak-user-token-form) .pf-c-form-control {
+  background: rgba(0, 0, 0, 0.35) !important;
+  border: 1px solid rgba(244, 238, 251, 0.18) !important;
+  border-radius: 12px !important;
+  color: #F4EEFB !important;
+}
+:host(ak-user-token-form) .pf-c-form-control:focus {
+  border-color: #7FD3F0 !important;
+  box-shadow: 0 0 0 3px rgba(127, 211, 240, 0.25) !important;
+  outline: none !important;
+}
+:host(ak-user-token-form) .pf-c-form__label-text,
+:host(ak-user-token-form) .pf-c-form__helper-text {
+  color: rgba(244, 238, 251, 0.75) !important;
+}
+:host(ak-user-token-form) .pf-c-form__label-text::after {
+  color: #7FD3F0 !important;
+}
+
+/* ---- Dialogs. ak-forms-modal is shared with the admin interface, so the values come from
+   variables that only exist on the settings pages, with authentik's defaults as fallback. ---- */
+:host(ak-user-settings) .pf-c-page {
+  --px-backdrop-bg: rgba(7, 5, 13, 0.6);
+  --px-modal-bg: #2A1A40;
+  --px-modal-color: #F4EEFB;
+  --px-modal-border: rgba(244, 238, 251, 0.18);
+  --px-modal-radius: 20px;
+  --px-btn-primary-bg: #7FD3F0;
+  --px-btn-primary-color: #221634;
+  --px-btn-danger-bg: #E4577F;
+  --px-btn-danger-color: #FFFFFF;
+  --px-modal-section-bg: transparent;
+  --px-delete-min-h: min(660px, calc(100vh - 48px));
+  --px-delete-shrink: 0;
+  --px-delete-overflow: visible;
+}
+:host(ak-forms-modal) .pf-c-backdrop {
+  background-color: var(--px-backdrop-bg, var(--pf-c-backdrop--BackgroundColor)) !important;
+}
+:host(ak-forms-modal) .pf-c-modal-box {
+  background-color: var(--px-modal-bg, var(--pf-c-modal-box--BackgroundColor)) !important;
+  color: var(--px-modal-color, inherit) !important;
+  border: 1px solid var(--px-modal-border, transparent) !important;
+  border-radius: var(--px-modal-radius, 0) !important;
+}
+:host(ak-forms-modal) .pf-c-modal-box__title,
+:host(ak-forms-modal) .pf-c-modal-box__header,
+:host(ak-forms-modal) .pf-c-modal-box__body,
+:host(ak-forms-modal) .pf-c-button.pf-m-plain {
+  color: var(--px-modal-color, inherit) !important;
+}
+:host(ak-forms-modal) .pf-c-modal-box__footer {
+  border-color: var(--px-modal-border, transparent) !important;
+}
+:host(ak-forms-modal) .pf-c-button.pf-m-primary {
+  background-color: var(--px-btn-primary-bg, var(--pf-global--primary-color--100)) !important;
+  color: var(--px-btn-primary-color, var(--pf-global--Color--light-100)) !important;
+  border-radius: var(--px-btn-radius, 3px) !important;
+  font-weight: 600;
+}
+:host(ak-forms-modal) .pf-c-button::after {
+  border-color: var(--px-modal-border, var(--pf-c-button--after--BorderColor)) !important;
+  border-radius: var(--px-btn-radius, 3px) !important;
+}
+
+
+/* ---- "Update details" form (the user settings flow) ---- */
+:host(ak-user-stage-prompt) ak-flow-card {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+:host(ak-user-stage-prompt) .pf-c-form__label-text {
+  color: rgba(244, 238, 251, 0.75) !important;
+  font-weight: 400 !important;
+}
+:host(ak-user-stage-prompt) .pf-c-form__label-text::after {
+  color: #7FD3F0 !important;
+}
+:host(ak-user-stage-prompt) .pf-c-form-control {
+  --pf-c-form-control--BorderBottomColor: transparent;
+  background-color: rgba(34, 22, 52, 0.35) !important;
+  border: 1px solid rgba(244, 238, 251, 0.18) !important;
+  border-radius: 12px !important;
+  color: #F4EEFB !important;
+  min-height: 44px;
+  padding-inline: 14px !important;
+}
+:host(ak-user-stage-prompt[theme="dark"]) .pf-c-form-control {
+  background-color: rgba(0, 0, 0, 0.45) !important;
+}
+:host(ak-user-stage-prompt) .pf-c-form-control:focus,
+:host(ak-user-stage-prompt) .pf-c-form-control:focus-visible {
+  border-color: #7FD3F0 !important;
+  box-shadow: 0 0 0 3px rgba(127, 211, 240, 0.25) !important;
+  outline: none !important;
+}
+/* read-only fields (username, name): greyer and flatter, with a small lock, so they read as not editable */
+:host(ak-user-stage-prompt) input.pf-c-form-control[readonly],
+:host(ak-user-stage-prompt) input.pf-c-form-control:disabled,
+:host(ak-user-stage-prompt) textarea.pf-c-form-control[readonly] {
+  background-color: rgba(160, 150, 175, 0.12) !important;
+  border-color: rgba(244, 238, 251, 0.08) !important;
+  color: rgba(244, 238, 251, 0.55) !important;
+  cursor: not-allowed;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='16' viewBox='0 0 14 16'%3E%3Crect x='1.5' y='7' width='11' height='8' rx='2' fill='none' stroke='%23F4EEFB' stroke-opacity='.45' stroke-width='1.5'/%3E%3Cpath d='M4 7V5a3 3 0 0 1 6 0v2' fill='none' stroke='%23F4EEFB' stroke-opacity='.45' stroke-width='1.5'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 16px center !important;
+  background-size: 14px 16px !important;
+  padding-right: 40px !important;
+}
+:host(ak-user-stage-prompt[theme="dark"]) input.pf-c-form-control[readonly],
+:host(ak-user-stage-prompt[theme="dark"]) input.pf-c-form-control:disabled {
+  background-color: rgba(160, 150, 175, 0.08) !important;
+}
+:host(ak-user-stage-prompt) input.pf-c-form-control[readonly]:focus,
+:host(ak-user-stage-prompt) input.pf-c-form-control[readonly]:focus-visible {
+  border-color: rgba(244, 238, 251, 0.2) !important;
+  box-shadow: none !important;
+}
+/* language dropdown: own arrow, dark option list */
+:host(ak-user-stage-prompt) select.pf-c-form-control {
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%237FD3F0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 16px center !important;
+  background-size: 12px 8px !important;
+  padding-right: 40px !important;
+  cursor: pointer;
+}
+:host(ak-user-stage-prompt) select.pf-c-form-control option,
+:host(ak-user-stage-prompt) select.pf-c-form-control optgroup {
+  background-color: #2A1A40;
+  color: #F4EEFB;
+}
+:host(ak-user-stage-prompt) select.pf-c-form-control hr {
+  border-color: rgba(244, 238, 251, 0.18);
+}
+/* Save: Arc Blue pill with dark text, like the other primary buttons */
+:host(ak-user-stage-prompt) .pf-c-button.pf-m-primary {
+  --pf-c-button--after--BorderColor: transparent;
+  background: #7FD3F0 !important;
+  color: #221634 !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+  min-width: 120px;
+}
+:host(ak-user-stage-prompt) .pf-c-button.pf-m-primary:hover,
+:host(ak-user-stage-prompt) .pf-c-button.pf-m-primary:focus-visible {
+  background: #9FDDF4 !important;
+  color: #221634 !important;
+}
+:host(ak-user-stage-prompt) .pf-c-button::after {
+  border: 0 !important;
+}
+:host(ak-user-stage-prompt) .pf-c-form__helper-text {
+  color: rgba(244, 238, 251, 0.6) !important;
+}
+:host(ak-user-stage-prompt) .pf-c-form__helper-text.pf-m-error {
+  color: #FFB4C8 !important;
+}
+
+
+/* ---- Delete dialog (Delete Consent(s), Delete Token, ...) ----
+   ak-forms-delete-bulk is shared with the admin interface: values come from the
+   settings-only variables, with authentik's defaults as the fallback. */
+:host(ak-forms-delete-bulk) .pf-c-backdrop {
+  background-color: var(--px-backdrop-bg, var(--pf-c-backdrop--BackgroundColor)) !important;
+}
+:host(ak-forms-delete-bulk) .pf-c-modal-box {
+  /* about twice authentik's height, so the message and table aren't squeezed into scroll boxes */
+  min-height: var(--px-delete-min-h, auto) !important;
+  background-color: var(--px-modal-bg, var(--pf-c-modal-box--BackgroundColor)) !important;
+  color: var(--px-modal-color, inherit) !important;
+  border: 1px solid var(--px-modal-border, transparent) !important;
+  border-radius: var(--px-modal-radius, 0) !important;
+  overflow: hidden;
+}
+/* the header and body sections carry PatternFly's light page background */
+:host(ak-forms-delete-bulk) .pf-c-modal-box__header,
+:host(ak-forms-delete-bulk) .pf-c-modal-box__body,
+:host(ak-forms-delete-bulk) .pf-c-page__main-section.pf-m-light {
+  background-color: var(--px-modal-section-bg, var(--pf-c-page__main-section--m-light--BackgroundColor)) !important;
+  color: var(--px-modal-color, inherit) !important;
+}
+:host(ak-forms-delete-bulk) .pf-c-title {
+  color: var(--px-modal-color, inherit) !important;
+}
+:host(ak-forms-delete-bulk) .pf-c-content {
+  color: var(--px-modal-color, var(--pf-c-content--Color)) !important;
+}
+:host(ak-forms-delete-bulk) .pf-c-modal-box > .pf-c-button.pf-m-plain {
+  color: var(--px-modal-color, var(--pf-c-button--m-plain--Color)) !important;
+}
+:host(ak-forms-delete-bulk) .pf-c-modal-box__footer {
+  border-color: var(--px-modal-border, transparent) !important;
+  background-color: var(--px-modal-section-bg, transparent) !important;
+}
+/* the header and message never shrink; only the used-by table scrolls if it's really long */
+:host(ak-forms-delete-bulk) .pf-c-modal-box__header,
+:host(ak-forms-delete-bulk) .pf-c-modal-box__body:not(:has(ak-used-by-table)) {
+  flex-shrink: var(--px-delete-shrink, 1) !important;
+  flex-grow: var(--px-delete-shrink, 1) !important;
+  overflow: var(--px-delete-overflow, auto) !important;
+}
+:host(ak-forms-delete-bulk) .pf-c-modal-box__body:has(ak-used-by-table) {
+  flex-grow: 1 !important;
+}
+/* the "used by" table inside the dialog (also shared with the admin interface) */
+:host(ak-used-by-table) .pf-c-table {
+  --pf-c-table--BorderColor: var(--px-modal-border, var(--pf-global--BorderColor--100)) !important;
+  background-color: var(--px-modal-section-bg, var(--pf-c-table--BackgroundColor)) !important;
+  color: var(--px-modal-color, var(--pf-global--Color--100)) !important;
+}
+:host(ak-used-by-table) .pf-c-table th,
+:host(ak-used-by-table) .pf-c-table td,
+:host(ak-used-by-table) .pf-c-table__text {
+  color: var(--px-modal-color, var(--pf-global--Color--100)) !important;
+}
+:host(ak-used-by-table) .pf-c-toolbar {
+  background-color: var(--px-modal-section-bg, var(--pf-c-toolbar--BackgroundColor)) !important;
+}
+:host(ak-used-by-table) .pf-c-pagination {
+  background-color: var(--px-modal-section-bg, var(--pf-c-pagination--m-bottom--BackgroundColor)) !important;
+}
+/* its Cancel / Delete buttons are ak-spinner-buttons */
+:host(ak-spinner-button) #spinner-button.pf-c-button.pf-m-danger {
+  background-color: var(--px-btn-danger-bg, var(--pf-c-button--m-danger--BackgroundColor)) !important;
+  color: var(--px-btn-danger-color, var(--pf-c-button--m-danger--Color)) !important;
+  border-radius: var(--px-btn-radius, 3px) !important;
+  font-weight: 600;
+}
+:host(ak-spinner-button) #spinner-button.pf-c-button.pf-m-plain {
+  color: var(--px-modal-color, var(--pf-c-button--m-plain--Color)) !important;
+  border-radius: var(--px-btn-radius, 3px) !important;
+}
+:host(ak-spinner-button) #spinner-button.pf-c-button.pf-m-danger::after,
+:host(ak-spinner-button) #spinner-button.pf-c-button.pf-m-plain::after {
+  border-radius: var(--px-btn-radius, 3px) !important;
+}
+
+/* ---- Profile picture upload (file field in the Update details form) ---- */
+:host(ak-user-stage-prompt) input[type="file"].pf-c-form-control {
+  padding: 6px 14px 6px 6px !important;
+  min-height: 48px;
+  line-height: 34px;
+  color: rgba(244, 238, 251, 0.7) !important;
+  cursor: pointer;
+}
+:host(ak-user-stage-prompt) input[type="file"].pf-c-form-control::file-selector-button {
+  margin-right: 12px;
+  padding: 0 18px;
+  height: 34px;
+  border: 1px solid rgba(244, 238, 251, 0.35);
+  border-radius: 999px;
+  background: rgba(244, 238, 251, 0.06);
+  color: #F4EEFB;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+:host(ak-user-stage-prompt) input[type="file"].pf-c-form-control:hover::file-selector-button,
+:host(ak-user-stage-prompt) input[type="file"].pf-c-form-control:focus-visible::file-selector-button {
+  background: rgba(127, 211, 240, 0.12);
+  border-color: #7FD3F0;
+  color: #7FD3F0;
+}
