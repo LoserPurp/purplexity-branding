@@ -349,7 +349,7 @@ The logo, wordmark, lockup and button colors stay the same in both themes. Only 
 
 ---
 
-## Authentik theme · `assets/css/v12/authentik.css`
+## Authentik theme · `assets/css/v13/authentik.css`
 
 Custom CSS that makes the authentik login page match the login examples above: the backdrop follows authentik's light or dark theme, the lockup floats above a glass card, inputs are rounded, and the primary button is an Arc Blue pill.
 
@@ -358,7 +358,7 @@ It also styles the user interface: on the Application Dashboard the backdrop rep
 To use it, open the file, copy **all of its contents**, and paste them into **Admin → System → Brands → (your brand) → Custom CSS**:
 
 ```
-https://branding.purplexity.no/assets/css/v12/authentik.css
+https://branding.purplexity.no/assets/css/v13/authentik.css
 ```
 
 > Don't use `@import url(...)` to load the file. authentik adds brand CSS to each component's shadow root in a way that doesn't allow `@import`, so only the backdrop would change and the card, inputs and button would keep authentik's default look. Paste the full CSS instead, and paste it again when the file changes.
@@ -366,6 +366,7 @@ https://branding.purplexity.no/assets/css/v12/authentik.css
 - authentik applies brand CSS to every interface, so every rule is scoped to the login flow or the user interface. The admin interface keeps authentik's normal look.
 - Set the brand logo to `assets/svg/lockup.svg` and the favicon to `assets/svg/logo-outline-purple.svg`.
 - Tested on the username and password step in Chrome and Firefox, desktop and phone, light and dark.
+- Needs authentik 2026.8 or later from v13 on. Older authentik versions should use v12.
 - The loading state after pressing **Log in** has no dark box: the card fades slightly and an Arc Blue spinner shows over it.
 - Like the images, the CSS follows the version rule:
 
@@ -382,7 +383,8 @@ https://branding.purplexity.no/assets/css/v12/authentik.css
 | 9 | `assets/css/v9/authentik.css` | Read-only fields in the Update details form look greyed out with a lock |
 | 10 | `assets/css/v10/authentik.css` | Styles the delete dialogs and the profile picture upload field |
 | 11 | `assets/css/v11/authentik.css` | Taller delete dialog; dialogs on the settings pages cover the whole screen again |
-| 12 | `assets/css/v12/authentik.css` | Spacing and a divider for the login card's footer links ("Forgot username or password?") **(current)** |
+| 12 | `assets/css/v12/authentik.css` | Spacing and a divider for the login card's footer links ("Forgot username or password?") |
+| 13 | `assets/css/v13/authentik.css` | Login page works again on authentik 2026.8; the show-password eye sits inside the password field **(current)** |
 
 ---
 
