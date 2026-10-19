@@ -349,7 +349,7 @@ The logo, wordmark, lockup and button colors stay the same in both themes. Only 
 
 ---
 
-## Authentik theme · `assets/css/v14/authentik.css`
+## Authentik theme · `assets/css/v15/authentik.css`
 
 Custom CSS that makes the authentik login page match the login examples above: the backdrop follows authentik's light or dark theme, the lockup floats above a glass card, inputs are rounded, and the primary button is an Arc Blue pill.
 
@@ -358,7 +358,7 @@ It also styles the user interface: on the Application Dashboard the backdrop rep
 To use it, open the file, copy **all of its contents**, and paste them into **Admin → System → Brands → (your brand) → Custom CSS**:
 
 ```
-https://branding.purplexity.no/assets/css/v14/authentik.css
+https://branding.purplexity.no/assets/css/v15/authentik.css
 ```
 
 > Don't use `@import url(...)` to load the file. authentik adds brand CSS to each component's shadow root in a way that doesn't allow `@import`, so only the backdrop would change and the card, inputs and button would keep authentik's default look. Paste the full CSS instead, and paste it again when the file changes.
@@ -385,7 +385,8 @@ https://branding.purplexity.no/assets/css/v14/authentik.css
 | 11 | `assets/css/v11/authentik.css` | Taller delete dialog; dialogs on the settings pages cover the whole screen again |
 | 12 | `assets/css/v12/authentik.css` | Spacing and a divider for the login card's footer links ("Forgot username or password?") |
 | 13 | `assets/css/v13/authentik.css` | Login page works again on authentik 2026.8; the show-password eye sits inside the password field |
-| 14 | `assets/css/v14/authentik.css` | Checkboxes are glass boxes that fill Arc Blue when checked, instead of the browser's grey **(current)** |
+| 14 | `assets/css/v14/authentik.css` | Checkboxes are glass boxes that fill Arc Blue when checked, instead of the browser's grey |
+| 15 | `assets/css/v15/authentik.css` | No grey box behind the checkbox column in the settings tables **(current)** |
 
 ---
 
